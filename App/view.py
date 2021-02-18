@@ -37,10 +37,22 @@ operación solicitada
 def printMenu():
     print("Bienvenido")
     print("1- Cargar información en el catálogo")
-    print("2- ")
+    print("2- Consultar los Top x videos con más views")
+    print("3- Consultar el video que más dias ha sido trending en un país")
+    print("4- Consultar el video que más dias ha sido trending en una categoria")
+    print("5- Consultar los x videos con mas likes en un país específico con un tag específico")
+    print("0- Salir")
 
 catalog = None
+"""
+def initCatalog():
+    #inicia el catalogo de videos
+    return controller.initCatalog()
 
+def loadData(catalog):
+    #carga los videos en la estructura de datos
+     controller.loadData(catalog)
+"""
 """
 Menu principal
 """
@@ -49,10 +61,17 @@ while True:
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
         print("Cargando información de los archivos ....")
-
+        #catalog = initCatalog()
+        #loadData(catalog)
     elif int(inputs[0]) == 2:
-        pass
-
+        numero=input("Buscando los top ?:")
+    elif int(inputs[0]) == 3:
+        pais=input("Cúal país quiere buscar?:")
+    elif int(inputs[0]) == 4:
+        categoria=input("Cúal categoria quiere buscar?:")
+    elif int(inputs[0]) == 5:
+        tag=input("Cúal es el tag que quiere buscar?:")
+        
     else:
         sys.exit(0)
 sys.exit(0)
