@@ -33,11 +33,11 @@ assert config
 """
   Este módulo implementa el tipo abstracto de datos (TAD) lista.
   Se puede implementar sobre una estructura de datos encadenada de forma
-  sencilla, doble o como un arreglo
+  sencilla, doble o como un arreglo   
 """
 
 
-def newList(datastructure='SINGLE_LINKED',
+def newList(datastructure="SINGLE_LINKED",
             cmpfunction=None,
             key=None,
             filename=None,
