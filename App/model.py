@@ -26,8 +26,11 @@
 
 
 import config as cf
+import time
 from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
+from DISClib.Algorithms.Sorting import insertionsort as isort
+from DISClib.Algorithms.Sorting import selectionsort as ssort
 assert cf
 
 """
@@ -37,7 +40,7 @@ los mismos.
 
 # Construccion de modelos
 
-def newCatalog():
+def newCatalog(tipolista):
     """
     Inicializa el catálogo de videos. Crea una lista vacia para guardar
     todos los videos, adicionalmente, crea una lista vacia para los autores,
@@ -45,6 +48,8 @@ def newCatalog():
     generos y videos. Retorna el catalogo inicializado.
     """
     catalog = {'trending_date': None,
+               "video":None,
+               #falta cate
                'title': None,
                'cannel_tittle': None,
                'publish_time': None,
@@ -55,31 +60,111 @@ def newCatalog():
                'número_días': None,}
 
     catalog['trending_date'] = lt.newList()
-    catalog['title'] = lt.newList('SINGLE_LINKED',
-                                  cmpfunction=comparetitle)
-    catalog['cannel_tittle'] = lt.newList('SINGLE_LINKED',
+    catalog['video'] = lt.newList(tipolista,
+                                  cmpfunction=comparetittle)
+    catalog['title'] = lt.newList(tipolista,
+                                  cmpfunction=comparetittle)
+    catalog['cannel_tittle'] = lt.newList(tipolista,
                                  cmpfunction=comparecannel_tittle)
-    catalog['publish_time'] = lt.newList('SINGLE_LINKED',
+    catalog['publish_time'] = lt.newList(tipolista,
                                  cmpfunction=comparepublish_time)
-    catalog['views'] = lt.newList('SINGLE_LINKED',
+    catalog['views'] = lt.newList(tipolista,
                                  cmpfunction=compareviews)
-    catalog['likes'] = lt.newList('SINGLE_LINKED',
+    catalog['likes'] = lt.newList(tipolista,
                                  cmpfunction=comparelikes)
-    catalog['dislikes'] = lt.newList('SINGLE_LINKED',
+    catalog['dislikes'] = lt.newList(tipolista,
                                  cmpfunction=comparedislikes)
-    catalog['country'] = lt.newList('SINGLE_LINKED',
+    catalog['country'] = lt.newList(tipolista,
                                  cmpfunction=comparecountry)
-    catalog['número_días'] = lt.newList('SINGLE_LINKED')
+    catalog['número_días'] = lt.newList(tipolista, 
+                                cmpfunction=comparecountry)
 
     return catalog
 
-
 # Funciones para agregar informacion al catalogo
+def addvideo (catalogo, video1):
+    lt.addLast(catalogo["video"],video1)
+#def adddata (catalogo,vategory):
+    #lt.addlast(catalogo[])
 
 # Funciones para creacion de datos
+def newtitle (title):
+    title = {'title': "", "books": None,  "average_rating": 0}
+    title['title'] = title
+    title['books'] = lt.newList('ARRAY_LIST')
+    return title
+
+
+
+
 
 # Funciones de consulta
+def cmpVideosByViews(video1, video2):
+
+    rta = True
+    if int(video1["views"]) > int(video1["views"]):
+        rta = False
+    return rta
+
+
+
+#Devuelve verdadero (True) si los 'views' de video1 son menores que los del video2
+#Args:
+#video1: informacion del primer video que incluye su valor 'views'
+#video2: informacion del segundo video que incluye su valor 'views'
 
 # Funciones utilizadas para comparar elementos dentro de una lista
 
+def comparetittle (titulo1, titulo2):
+    if (titulo1['title'] == titulo2['title']):
+        return 0
+    return -1
+
+def comparecannel_tittle (cannel, cannel2):
+    if (cannel['channel']== cannel2['channel']):
+        return 0
+    return -1
+
+def comparepublish_time (time1, time2):
+    if (time1['publish_time'] > time2['publish_time']):
+        return 1
+    elif (time1['publish_time'] < time2['publish_time']):
+        return -1
+    return 0
+
+def compareviews (vistas1, vistas2):
+    if (vistas1['views'] > vistas2['views']):
+        return 1
+    elif (vistas1['views'] < vistas2['views']):
+        return -1
+    return 0
+def comparelikes(like1, like2):
+    if (like1['likes'] > like2['likes']):
+        return 1
+    elif (like1['likes'] < like2['likes']):
+        return -1
+    return 0
+def comparedislikes( dislikes1, dislikes2):
+    if (dislikes1['dislikes'] > dislikes2['dislikes']):
+        return 1
+    elif (dislikes1['dislikes'] < dislikes1['dislikes']):
+        return -1
+    return 0
+def comparecountry(country1,country2):
+    if (country1['country']== country2['country']):
+        return 0
+    return -1
 # Funciones de ordenamiento
+def tipo_de_orden_model(numero, catalog, size):
+    sub_list = lt.subList(catalog['video'], 0, size)
+    sub_list = sub_list.copy()
+    start_time = time.process_time()
+    if numero == 2:
+        sorted_list = sa.sort(sub_list, comparetittle)
+    elif numero == 1:
+        sorted_list = isort.sort(sub_list, comparetittle)
+    else:
+        sorted_list = ssort.sort(sub_list, comparetittle)
+    stop_time = time.process_time()
+    elapsed_time_mseg = (stop_time - start_time)*1000
+    return elapsed_time_mseg, sorted_list

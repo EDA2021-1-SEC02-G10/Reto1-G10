@@ -40,11 +40,11 @@ def printMenu():
     print("2- Consultar los Top x videos con más views")
     print("3- Consultar el video que más dias ha sido trending en un país")
     print("4- Consultar el video que más dias ha sido trending en una categoria")
-    print("5- Consultar los x videos con mas likes en un país específico con un tag específico")
+    #print("5- Consultar los x videos con mas likes en un país específico con un tag específico") numero 4
     print("0- Salir")
 
 catalog = None
-"""
+
 def initCatalog():
     #inicia el catalogo de videos
     return controller.initCatalog()
@@ -52,7 +52,7 @@ def initCatalog():
 def loadData(catalog):
     #carga los videos en la estructura de datos
      controller.loadData(catalog)
-"""
+
 """
 Menu principal
 """
@@ -60,17 +60,24 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
+        tipo_lista = int(input("escriba 1 si quiere usar SINGLE_LINKED, de lo contrario escriba 0:"))
         print("Cargando información de los archivos ....")
-        #catalog = initCatalog()
-        #loadData(catalog)
+        catalog = controller.initCatalog(tipo_lista)
+        loadData(catalog)
     elif int(inputs[0]) == 2:
+        F_ordenamiento= int(input("ingrese 1 para selection, 2 para insertion y 3 shell:"))
+        size = int(input("ingrese el size de la lista:"))
+        Tipo_orden = controller.tipo_de_orden(F_ordenamiento, catalog, size)
+        print(Tipo_orden[0])
         numero=input("Buscando los top ?:")
+        video1=input("Cuál es el primer video que quiere comparar?:")  
+        video2=input("Cuál es el segundo video que quiere comparar?:")  
+        VideosByViews = VideosByViews(video1,video2)
     elif int(inputs[0]) == 3:
         pais=input("Cúal país quiere buscar?:")
     elif int(inputs[0]) == 4:
         categoria=input("Cúal categoria quiere buscar?:")
-    elif int(inputs[0]) == 5:
-        tag=input("Cúal es el tag que quiere buscar?:")
+          
         
     else:
         sys.exit(0)
