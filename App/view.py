@@ -21,10 +21,11 @@
  """
 
 import config as cf
-import sys
 import controller
 from DISClib.ADT import list as lt
 assert cf
+import sys
+from DISClib.DataStructures import listiterator as it 
 
 
 """
@@ -60,19 +61,37 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        tipo_lista = int(input("escriba 1 si quiere usar SINGLE_LINKED, de lo contrario escriba 0:"))
+        #tipo_lista = int(input("escriba 1 si quiere usar SINGLE_LINKED, de lo contrario escriba 0:"))
+        tipo_lista="ARRAY_LIST"
         print("Cargando información de los archivos ....")
         catalog = controller.initCatalog(tipo_lista)
         loadData(catalog)
     elif int(inputs[0]) == 2:
-        F_ordenamiento= int(input("ingrese 1 para selection, 2 para insertion y 3 shell:"))
-        size = int(input("ingrese el size de la lista:"))
+        #F_ordenamiento= int(input("ingrese 1 para selection, 2 para insertion, 3 shell:"))
+        #size = int(input("ingrese el size de la lista:"))
+        size=lt.size(catalog["video"])
+        F_ordenamiento=3
         Tipo_orden = controller.tipo_de_orden(F_ordenamiento, catalog, size)
         print(Tipo_orden[0])
-        numero=input("Buscando los top ?:")
-        video1=input("Cuál es el primer video que quiere comparar?:")  
-        video2=input("Cuál es el segundo video que quiere comparar?:")  
-        VideosByViews = VideosByViews(video1,video2)
+        numero=int(input("Buscando los top ?:"))
+        country=input("Cuál país quiere buscar?:")  
+        category=int(input("Cuál categoria quiere buscar?:"))  
+        #VideosByViews = VideosByViews(video1,video2)
+        rta=controller.llamar_video_mas_views(catalog,numero,country,category)
+        print(rta)
+        #final = lt.newList()
+        #iterador= it.newIterator(rta)
+        #while it.hasNext(iterador):
+        #    element=it.next(iterador)
+        #    lt.addLast(final, element['trending_date'])
+        #    lt.addLast(final, element['title'])
+        #    lt.addLast(final, element['channel_title'])
+        #    lt.addLast(final, element['publish_time'])
+        #    lt.addLast(final, element['views'])
+        #    lt.addLast(final, element['likes'])
+        #    lt.addLast(final, element['dislikes'])
+        #print(final)
+
     elif int(inputs[0]) == 3:
         pais=input("Cúal país quiere buscar?:")
     elif int(inputs[0]) == 4:

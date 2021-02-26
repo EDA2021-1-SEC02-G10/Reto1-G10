@@ -75,3 +75,8 @@ def tipo_de_orden(numero, catalog, size):
 
 def VideosByViews(video1, video2):
     return model.cmpVideosByViews(video1, video2)
+
+# requerimiento 1
+
+def llamar_video_mas_views(catalog,numero,country,category):
+    return model.llamar_views(catalog,numero,country,category)
