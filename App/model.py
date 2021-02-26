@@ -32,6 +32,7 @@ from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.Algorithms.Sorting import insertionsort as isort
 from DISClib.Algorithms.Sorting import selectionsort as ssort
 assert cf
+from DISClib.DataStructures import listiterator as it 
 
 """
 Se define la estructura de un catálogo de videos. El catálogo tendrá dos listas, una para los videos, otra para las categorias de
@@ -49,7 +50,7 @@ def newCatalog(tipolista):
     """
     catalog = {'trending_date': None,
                "video":None,
-               #falta cate
+               "category":None,
                'title': None,
                'cannel_tittle': None,
                'publish_time': None,
@@ -61,6 +62,8 @@ def newCatalog(tipolista):
 
     catalog['trending_date'] = lt.newList()
     catalog['video'] = lt.newList(tipolista,
+                                  cmpfunction=comparetittle)
+    catalog['category'] = lt.newList(tipolista,
                                   cmpfunction=comparetittle)
     catalog['title'] = lt.newList(tipolista,
                                   cmpfunction=comparetittle)
@@ -93,9 +96,6 @@ def newtitle (title):
     title['title'] = title
     title['books'] = lt.newList('ARRAY_LIST')
     return title
-
-
-
 
 
 # Funciones de consulta
@@ -168,3 +168,16 @@ def tipo_de_orden_model(numero, catalog, size):
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list
+
+#requerimiento 1
+def llamar_views(catalog,numero,country,category):
+    videos = catalog['video']
+    best_video = lt.newList() 
+    iterador = it.newIterator(videos)
+    i=1
+    while it.hasNext(iterador) and i <= numero:
+        element=it.next(iterador)
+        if country == element['country'] and category == int(element['category_id']):
+            lt.addLast(best_video, element)
+            i+=1
+    return best_video
