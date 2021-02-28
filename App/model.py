@@ -31,6 +31,8 @@ from DISClib.ADT import list as lt
 from DISClib.Algorithms.Sorting import shellsort as sa
 from DISClib.Algorithms.Sorting import insertionsort as isort
 from DISClib.Algorithms.Sorting import selectionsort as ssort
+from DISClib.Algorithms.Sorting import quicksort as quick
+from DISClib.Algorithms.Sorting import mergesort as merge
 assert cf
 from DISClib.DataStructures import listiterator as it 
 
@@ -163,8 +165,12 @@ def tipo_de_orden_model(numero, catalog, size):
         sorted_list = sa.sort(sub_list, comparetittle)
     elif numero == 1:
         sorted_list = isort.sort(sub_list, comparetittle)
-    else:
+    elif numero == 3:
         sorted_list = ssort.sort(sub_list, comparetittle)
+    elif numero == 4:
+        sorted_list = quick.sort(sub_list, comparetittle)
+    else:
+        sorted_list = merge.sort(sub_list, comparetittle)
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list
