@@ -50,47 +50,45 @@ def newCatalog(tipolista):
     una lista vacia para los generos y una lista vacia para la asociación
     generos y videos. Retorna el catalogo inicializado.
     """
-    catalog = {'trending_date': None,
-               "video":None,
+    catalog = {"video":None,
                "category":None,
                'title': None,
-               'cannel_tittle': None,
-               'publish_time': None,
-               'views': None,
-               'likes': None,
-               'dislikes': None,
-               'country': None,
-               'tags': None,
-               'número_días': None,}
+               "tags":None,}
 
-    catalog['trending_date'] = lt.newList()
     catalog['video'] = lt.newList(tipolista,
                                   cmpfunction=comparetittle)
-    catalog['category'] = lt.newList(tipolista,
-                                  cmpfunction=comparetittle)
+    catalog['category'] = {}
     catalog['title'] = lt.newList(tipolista,
-                                  cmpfunction=comparetittle)
-    catalog['cannel_tittle'] = lt.newList(tipolista,
-                                 cmpfunction=comparecannel_tittle)
-    catalog['publish_time'] = lt.newList(tipolista,
-                                 cmpfunction=comparepublish_time)
-    catalog['views'] = lt.newList(tipolista,
-                                 cmpfunction=compareviews)
-    catalog['likes'] = lt.newList(tipolista,
-                                 cmpfunction=comparelikes)
-    catalog['dislikes'] = lt.newList(tipolista,
-                                 cmpfunction=comparedislikes)
+                                  cmpfunction=None)
     catalog['country'] = lt.newList(tipolista,
                                  cmpfunction=comparecountry)
-    catalog['tags'] = lt.newList(tipolista,
-                                 cmpfunction=comparecountry)
-    catalog['número_días'] = lt.newList(tipolista, 
-                                cmpfunction=comparecountry)
 
     return catalog
 
 # Funciones para agregar informacion al catalogo
 def addvideo (catalogo, video1):
+    pos = lt.isPresent(catalogo["title"],video1["title"])
+    if pos:
+        video1 = lt.getElement(catalogo["video"],(pos))
+        video1['trending_date'] += 1
+    else:
+        lt.addLast(catalogo["title"],video1["title"])
+        video1['trending_date'] = 1
+    categoria = video1["category_id"]
+    if categoria in (catalogo["category"]):
+        lt.addLast(catalogo["category"][categoria],video1)
+    else:
+        8 tag : bebe , cuna pais = col 
+        catalogo["category"][categoria] = lt.newList("ARRAY_LIST",cmpfunction=None)
+        lt.addLast(catalogo["category"][categoria],video1)
+    tags=video1["tags"].strip("|")
+    for i in tags:
+        if i in (catalogo["tags"]):
+        lt.addLast(catalogo["tags"][i][video1["country"]],video1)
+        else:
+            catalogo["category"][i] = {}
+            catalogo["tagss"][i][video1["country"]] = lt.newList("ARRAY_LIST",cmpfunction=None)
+            lt.addLast(catalogo["category"][i],video1)
     lt.addLast(catalogo["video"],video1)
 #def adddata (catalogo,vategory):
     #lt.addlast(catalogo[])
@@ -164,7 +162,10 @@ def comparethings(video1, video2):
     return(float(video1["views"])>float(video2["views"]))
 
 def comparelikes(video1, video2):
-    return(int(video1["likes"]>int(video2["likes"])))
+    return(int(video1["likes"])>int(video2["likes"]))
+
+def compare_tre(video1, video2):
+    return(int(video1["trending_date"])>int(video2["trending_date"]))
 
 # Funciones de ordenamiento
 def tipo_de_orden_model(numero, catalog, size):
@@ -187,10 +188,7 @@ def tipo_de_orden_model(numero, catalog, size):
 
 #requerimiento 1
 def llamar_views(catalog,numero,country,category):
-    size=lt.size(catalog["video"])
-    sub_list = lt.subList(catalog['video'], 0, size)
-    sub_list = sub_list.copy()
-    rta= sa.sort(sub_list,comparethings)
+    rta= sa.sort(catalog["video"],comparethings)
     best_video = lt.newList() 
     iterador = it.newIterator(rta)
     i=1
@@ -203,16 +201,31 @@ def llamar_views(catalog,numero,country,category):
 #requerimiento 2
 ###def llamar_video_mas_trending(catalog,pais):
 
+#req 3
+def trending_por_categoria(catalog, category_name):
+    if (category_name in catalog["category"]):
+        #if col in cat[tags][tag que se busca]:
+        ordered = merge.sort(catalog["category"][category_name],compare_tre)
+        return ordered
+
 #Requerimiento 4
-def video_tag(catalog,pais,tag):
+def video_tag(catalog,pais,tag,numero):
      size=lt.size(catalog["video"])
      sub_list = lt.subList(catalog['video'], 0, size)
      sub_list = sub_list.copy()
      rta= sa.sort(sub_list,comparelikes)
      tag_video = lt.newList()
-     iterador = it.newIterator(rta)
-     while it.hasNext(iterador):
+     iterador=it.newIterator(rta)
+     i=1
+     while it.hasNext(iterador) and i <= numero:
          element=it.next(iterador)
-         if pais == element["country"] and tag in element["tags"]:
-             lt.addlast(tag_video,element)
-     return tag_video 
+         final= str(element["tags"]).split("|")
+         #if pais == element["country"] and (tag in ):
+             #lt.addLast(tag_video,element)
+             #i+=1
+     #return tag_video
+     ###postag = lt.isPresent(rta["tags"], tag)
+     ###if postag > 0:
+     ###    videotag = lt.getElement(rta["tags"],postag)
+     ###   return videotag
+     ##return rta
