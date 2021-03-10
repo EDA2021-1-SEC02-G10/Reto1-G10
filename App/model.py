@@ -58,10 +58,10 @@ def newCatalog(tipolista):
     catalog['video'] = lt.newList(tipolista,
                                   cmpfunction=comparetittle)
     catalog['category'] = {}
+    catalog['country'] = {}
+    catalog['tags'] = {}
     catalog['title'] = lt.newList(tipolista,
                                   cmpfunction=None)
-    catalog['country'] = lt.newList(tipolista,
-                                 cmpfunction=comparecountry)
 
     return catalog
 
@@ -74,21 +74,37 @@ def addvideo (catalogo, video1):
     else:
         lt.addLast(catalogo["title"],video1["title"])
         video1['trending_date'] = 1
+    
+    #req 2
+    pais = video1["country"]
+    if pais in (catalogo["country"]):
+        lt.addLast(catalogo["country"][pais],video1)
+    else:
+        catalogo["country"][pais] = lt.newList("ARRAY_LIST",cmpfunction=None)
+        lt.addLast(catalogo["country"][pais],video1)
+
+    #req 3
     categoria = video1["category_id"]
     if categoria in (catalogo["category"]):
         lt.addLast(catalogo["category"][categoria],video1)
     else:
-        8 tag : bebe , cuna pais = col 
         catalogo["category"][categoria] = lt.newList("ARRAY_LIST",cmpfunction=None)
         lt.addLast(catalogo["category"][categoria],video1)
-    tags=video1["tags"].strip("|")
+    
+    #req 4
+    tags = video1["tags"].split("|")
     for i in tags:
         if i in (catalogo["tags"]):
-        lt.addLast(catalogo["tags"][i][video1["country"]],video1)
+            lt.addLast(catalogo["tags"][i][catalogo["country"]],video1)
         else:
-            catalogo["category"][i] = {}
-            catalogo["tagss"][i][video1["country"]] = lt.newList("ARRAY_LIST",cmpfunction=None)
-            lt.addLast(catalogo["category"][i],video1)
+            catalogo["tags"][i][catalogo["country"]] = lt.newList("ARRAY_LIST",cmpfunction=None)
+            lt.addLast(catalogo["tags"][i][catalogo["country"]],video1)
+    #for i in tags:
+    #    if i in (catalogo["tags"]):
+    #       lt.addLast(catalogo["category"][i][catalogo["country"]],video1)
+    #    else:
+    #       catalogo["category"][i][catologo["country"]] = lt.newList("ARRAY_LIST",cmpfunction=None)
+    #        lt.addLast(catalogo["category"][i][catologo["country"]],video1) 
     lt.addLast(catalogo["video"],video1)
 #def adddata (catalogo,vategory):
     #lt.addlast(catalogo[])
@@ -164,7 +180,7 @@ def comparethings(video1, video2):
 def comparelikes(video1, video2):
     return(int(video1["likes"])>int(video2["likes"]))
 
-def compare_tre(video1, video2):
+def compare_trending(video1, video2):
     return(int(video1["trending_date"])>int(video2["trending_date"]))
 
 # Funciones de ordenamiento
@@ -199,27 +215,31 @@ def llamar_views(catalog,numero,country,category):
             i+=1
     return best_video
 #requerimiento 2
-###def llamar_video_mas_trending(catalog,pais):
-
+def llamar_trending(catalog,pais):
+    if (pais in catalog["country"]):
+        ordenado = merge.sort(catalog["country"][pais],compare_trending)
+        return ordenado
 #req 3
 def trending_por_categoria(catalog, category_name):
     if (category_name in catalog["category"]):
-        #if col in cat[tags][tag que se busca]:
-        ordered = merge.sort(catalog["category"][category_name],compare_tre)
+        ordered = merge.sort(catalog["category"][category_name],compare_trending)
         return ordered
 
 #Requerimiento 4
 def video_tag(catalog,pais,tag,numero):
-     size=lt.size(catalog["video"])
-     sub_list = lt.subList(catalog['video'], 0, size)
-     sub_list = sub_list.copy()
-     rta= sa.sort(sub_list,comparelikes)
-     tag_video = lt.newList()
-     iterador=it.newIterator(rta)
-     i=1
-     while it.hasNext(iterador) and i <= numero:
-         element=it.next(iterador)
-         final= str(element["tags"]).split("|")
+    if tag in catalog["tags"]:
+        ordenado=merge.sort(catalog["tags"][tag][pais],comparelikes)
+        return ordenado
+     #size=lt.size(catalog["video"])
+     #sub_list = lt.subList(catalog['video'], 0, size)
+     #sub_list = sub_list.copy()
+     #rta= sa.sort(sub_list,comparelikes)
+     #tag_video = lt.newList()
+     #iterador=it.newIterator(rta)
+     #i=1
+     #while it.hasNext(iterador) and i <= numero:
+         #element=it.next(iterador)
+         #final= str(element["tags"]).split("|")
          #if pais == element["country"] and (tag in ):
              #lt.addLast(tag_video,element)
              #i+=1

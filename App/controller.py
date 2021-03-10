@@ -83,10 +83,15 @@ def llamar_video_mas_views(catalog,numero,country,category):
 
 # requerimiento 2
 
-###def llamar_video_mas_trending(catalog,pais):
-    ###return model.llamar_trending(catalog,pais)
+def llamar_video_mas_trending(catalog,pais):
+    return model.llamar_trending(catalog,pais)
 
+
+#req 3
+
+def llamar_trending_por_categoria(catalog,category_name):
+    return model.trending_por_categoria(catalog,category_name)
 
 #Requerimiento 4
-def video_tag(catalog, pais, tag):
-    return model.video_tag(catalog,pais,tag)
+def video_tag(catalog, pais, tag, numero):
+    return model.video_tag(catalog,pais,tag,numero)

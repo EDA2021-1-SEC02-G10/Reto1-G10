@@ -69,6 +69,8 @@ while True:
         print("Cargando información de los archivos ....")
         catalog = controller.initCatalog(tipo_lista)
         loadData(catalog)
+        print(catalog["tags"])
+    #req 1
     elif int(inputs[0]) == 2:
         #F_ordenamiento= int(input("ingrese 1 para selection, 2 para insertion, 3 shell, 4 quick, 5 merge:"))
         #size = int(input("ingrese el size de la lista:"))
@@ -86,19 +88,31 @@ while True:
         while it.hasNext(iterador):
             element=it.next(iterador)
             print(("Trending date: {}, title: {}, channel title: {}, publish time: {}, views: {}, likes: {}, dislikes: {}").format(element["trending_date"],element['title'],element['channel_title'],element['publish_time'],element['views'],element['likes'],element['dislikes']))
-    ###elif int(inputs[0]) == 3:
-        ###pais=input("Cúal país quiere buscar?:")
-        ###rta=controller.llamar_video_mas_trending(catalog,pais)
-    ###elif int(inputs[0]) == 4:
-        ###categoria=input("Cúal categoria quiere buscar?:")
+    #req 2
+    elif int(inputs[0]) == 3:
+        pais=input("Cúal país quiere buscar?:")
+        rta=controller.llamar_video_mas_trending(catalog,pais)
+        iterador= it.newIterator(rta)
+        element=it.next(iterador)
+        print(("Title: {} , Channel_title:{} , Country: {} , Numero dias: {}").format(element['title'], element['channel_title'], element['country'], element['trending_date']))
+    #req 3
+    elif int(inputs[0]) == 4:
+        category_name=str(input("Cúal categoria quiere buscar?:"))
+        rta=controller.llamar_trending_por_categoria(catalog,category_name)
+        iterador= it.newIterator(rta)
+        element=it.next(iterador)
+        print(("Title: {} ,  Channel_title: {} , Category_id: {} , Numeros de dias: {}").format(element['title'], element['channel_title'], element['category_id'], element['trending_date']))
+    #req 4        
     elif int(inputs[0]) == 5:
         pais=input("Cúal país quiere buscar?:")
         tag=input("Cual tag quiere buscar?:")
-        rta=controller.video_tag(catalog, pais, tag)
-        iterador= it.newIterator(rta)
-        while it.hasNext(iterador):
-            element=it.nexts(iterador)
-            print((" title:{}, channel title:{}, publish_time:{}, views:{}, likes:{}, dislikes:{}, tags:{}").format(element["title"], element["cannel_tittle"], element["publish_time"], element["views"], element["likes"],element["dislikes"],element["tags"]))
+        numero=int(input("Cuantos videos quiere saber?:"))
+        rta=controller.video_tag(catalog, pais, tag, numero)
+        print(rta)
+        #iterador= it.newIterator(rta)
+        #while it.hasNext(iterador):
+        #    element=it.next(iterador)
+        #    print((" title:{}, tag:{}").format(element["title"], element["tags"]))
     else:
         sys.exit(0)
 sys.exit(0)
