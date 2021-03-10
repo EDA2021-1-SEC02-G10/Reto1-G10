@@ -60,6 +60,7 @@ def newCatalog(tipolista):
                'likes': None,
                'dislikes': None,
                'country': None,
+               'tags': None,
                'número_días': None,}
 
     catalog['trending_date'] = lt.newList()
@@ -80,6 +81,8 @@ def newCatalog(tipolista):
     catalog['dislikes'] = lt.newList(tipolista,
                                  cmpfunction=comparedislikes)
     catalog['country'] = lt.newList(tipolista,
+                                 cmpfunction=comparecountry)
+    catalog['tags'] = lt.newList(tipolista,
                                  cmpfunction=comparecountry)
     catalog['número_días'] = lt.newList(tipolista, 
                                 cmpfunction=comparecountry)
@@ -155,31 +158,41 @@ def comparedislikes( dislikes1, dislikes2):
 def comparecountry(country1,country2):
     if (country1['country']== country2['country']):
         return 0
-    return -1
+    return -14
+
+def comparethings(video1, video2):
+    return(float(video1["views"])>float(video2["views"]))
+
+def comparelikes(video1, video2):
+    return(int(video1["likes"]>int(video2["likes"])))
+
 # Funciones de ordenamiento
 def tipo_de_orden_model(numero, catalog, size):
     sub_list = lt.subList(catalog['video'], 0, size)
     sub_list = sub_list.copy()
     start_time = time.process_time()
     if numero == 2:
-        sorted_list = sa.sort(sub_list, comparetittle)
+        sorted_list = sa.sort(sub_list, compareviews)
     elif numero == 1:
-        sorted_list = isort.sort(sub_list, comparetittle)
+        sorted_list = isort.sort(sub_list, compareviews)
     elif numero == 3:
-        sorted_list = ssort.sort(sub_list, comparetittle)
+        sorted_list = ssort.sort(sub_list, compareviews)
     elif numero == 4:
-        sorted_list = quick.sort(sub_list, comparetittle)
+        sorted_list = quick.sort(sub_list, compareviews)
     else:
-        sorted_list = merge.sort(sub_list, comparetittle)
+        sorted_list = merge.sort(sub_list, compareviews)
     stop_time = time.process_time()
     elapsed_time_mseg = (stop_time - start_time)*1000
     return elapsed_time_mseg, sorted_list
 
 #requerimiento 1
 def llamar_views(catalog,numero,country,category):
-    videos = catalog['video']
+    size=lt.size(catalog["video"])
+    sub_list = lt.subList(catalog['video'], 0, size)
+    sub_list = sub_list.copy()
+    rta= sa.sort(sub_list,comparethings)
     best_video = lt.newList() 
-    iterador = it.newIterator(videos)
+    iterador = it.newIterator(rta)
     i=1
     while it.hasNext(iterador) and i <= numero:
         element=it.next(iterador)
@@ -187,3 +200,19 @@ def llamar_views(catalog,numero,country,category):
             lt.addLast(best_video, element)
             i+=1
     return best_video
+#requerimiento 2
+###def llamar_video_mas_trending(catalog,pais):
+
+#Requerimiento 4
+def video_tag(catalog,pais,tag):
+     size=lt.size(catalog["video"])
+     sub_list = lt.subList(catalog['video'], 0, size)
+     sub_list = sub_list.copy()
+     rta= sa.sort(sub_list,comparelikes)
+     tag_video = lt.newList()
+     iterador = it.newIterator(rta)
+     while it.hasNext(iterador):
+         element=it.next(iterador)
+         if pais == element["country"] and tag in element["tags"]:
+             lt.addlast(tag_video,element)
+     return tag_video 

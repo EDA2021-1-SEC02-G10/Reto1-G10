@@ -80,3 +80,13 @@ def VideosByViews(video1, video2):
 
 def llamar_video_mas_views(catalog,numero,country,category):
     return model.llamar_views(catalog,numero,country,category)
+
+# requerimiento 2
+
+###def llamar_video_mas_trending(catalog,pais):
+    ###return model.llamar_trending(catalog,pais)
+
+
+#Requerimiento 4
+def video_tag(catalog, pais, tag):
+    return model.video_tag(catalog,pais,tag)

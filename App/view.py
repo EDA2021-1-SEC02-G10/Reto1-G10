@@ -28,6 +28,9 @@ import sys
 from DISClib.DataStructures import listiterator as it 
 
 
+default_limit = 1000
+sys.setrecursionlimit(default_limit*10)
+
 """
 La vista se encarga de la interacción con el usuario
 Presenta el menu de opciones y por cada seleccion
@@ -41,7 +44,7 @@ def printMenu():
     print("2- Consultar los Top x videos con más views")
     print("3- Consultar el video que más dias ha sido trending en un país")
     print("4- Consultar el video que más dias ha sido trending en una categoria")
-    #print("5- Consultar los x videos con mas likes en un país específico con un tag específico") numero 4
+    print("5- Consultar los x videos con mas likes en un país específico con un tag específico")
     print("0- Salir")
 
 catalog = None
@@ -61,43 +64,41 @@ while True:
     printMenu()
     inputs = input('Seleccione una opción para continuar\n')
     if int(inputs[0]) == 1:
-        tipo_lista = int(input("escriba 1 si quiere usar SINGLE_LINKED, de lo contrario escriba 0:"))
-        ###tipo_lista="ARRAY_LIST"
+        #tipo_lista = int(input("escriba 1 si quiere usar SINGLE_LINKED, de lo contrario escriba 0:"))
+        tipo_lista="ARRAY_LIST"
         print("Cargando información de los archivos ....")
         catalog = controller.initCatalog(tipo_lista)
         loadData(catalog)
     elif int(inputs[0]) == 2:
-        F_ordenamiento= int(input("ingrese 1 para selection, 2 para insertion, 3 shell, 4 quick, 5 merge:"))
-        size = int(input("ingrese el size de la lista:"))
+        #F_ordenamiento= int(input("ingrese 1 para selection, 2 para insertion, 3 shell, 4 quick, 5 merge:"))
+        #size = int(input("ingrese el size de la lista:"))
         ###size=lt.size(catalog["video"])
-        ###F_ordenamiento=3
-        Tipo_orden = controller.tipo_de_orden(F_ordenamiento, catalog, size)
-        print(Tipo_orden[0])
-        ###numero=int(input("Buscando los top ?:"))
-        ###country=input("Cuál país quiere buscar?:")  
-        ###category=int(input("Cuál categoria quiere buscar?:"))  
+        ###F_ordenamiento=5
+        ###Tipo_orden = controller.tipo_de_orden(F_ordenamiento, catalog, size)
+        #print(Tipo_orden[0])
+        numero=int(input("Buscando los top ?:"))
+        country=input("Cuál país quiere buscar?:")  
+        category=int(input("Cuál categoria quiere buscar?:"))  
         #VideosByViews = VideosByViews(video1,video2)
-        ###rta=controller.llamar_video_mas_views(catalog,numero,country,category)
+        rta=controller.llamar_video_mas_views(catalog,numero,country,category)
         ###print(rta)
-        #final = lt.newList()
-        #iterador= it.newIterator(rta)
-        #while it.hasNext(iterador):
-        #    element=it.next(iterador)
-        #    lt.addLast(final, element['trending_date'])
-        #    lt.addLast(final, element['title'])
-        #    lt.addLast(final, element['channel_title'])
-        #    lt.addLast(final, element['publish_time'])
-        #    lt.addLast(final, element['views'])
-        #    lt.addLast(final, element['likes'])
-        #    lt.addLast(final, element['dislikes'])
-        #print(final)
-
-    elif int(inputs[0]) == 3:
+        iterador= it.newIterator(rta)
+        while it.hasNext(iterador):
+            element=it.next(iterador)
+            print(("Trending date: {}, title: {}, channel title: {}, publish time: {}, views: {}, likes: {}, dislikes: {}").format(element["trending_date"],element['title'],element['channel_title'],element['publish_time'],element['views'],element['likes'],element['dislikes']))
+    ###elif int(inputs[0]) == 3:
+        ###pais=input("Cúal país quiere buscar?:")
+        ###rta=controller.llamar_video_mas_trending(catalog,pais)
+    ###elif int(inputs[0]) == 4:
+        ###categoria=input("Cúal categoria quiere buscar?:")
+    elif int(inputs[0]) == 5:
         pais=input("Cúal país quiere buscar?:")
-    elif int(inputs[0]) == 4:
-        categoria=input("Cúal categoria quiere buscar?:")
-          
-        
+        tag=input("Cual tag quiere buscar?:")
+        rta=controller.video_tag(catalog, pais, tag)
+        iterador= it.newIterator(rta)
+        while it.hasNext(iterador):
+            element=it.nexts(iterador)
+            print((" title:{}, channel title:{}, publish_time:{}, views:{}, likes:{}, dislikes:{}, tags:{}").format(element["title"], element["cannel_tittle"], element["publish_time"], element["views"], element["likes"],element["dislikes"],element["tags"]))
     else:
         sys.exit(0)
 sys.exit(0)
