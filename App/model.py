@@ -95,10 +95,14 @@ def addvideo (catalogo, video1):
     tags = video1["tags"].split("|")
     for i in tags:
         if i in (catalogo["tags"]):
-            lt.addLast(catalogo["tags"][i][catalogo["country"]],video1)
+            if video1["country"] in catalogo["tags"]:
+                lt.addLast(catalogo["tags"][i][video1["country"]],video1)
+                pass
         else:
-            catalogo["tags"][i][catalogo["country"]] = lt.newList("ARRAY_LIST",cmpfunction=None)
-            lt.addLast(catalogo["tags"][i][catalogo["country"]],video1)
+            catalogo["tags"][i]={}
+            catalogo["tags"][i][video1["country"]] = lt.newList("ARRAY_LIST",cmpfunction=None)
+            lt.addLast(catalogo["tags"][i][video1["country"]],video1)
+        
     #for i in tags:
     #    if i in (catalogo["tags"]):
     #       lt.addLast(catalogo["category"][i][catalogo["country"]],video1)
@@ -155,12 +159,6 @@ def compareviews (vistas1, vistas2):
     if (vistas1['views'] > vistas2['views']):
         return 1
     elif (vistas1['views'] < vistas2['views']):
-        return -1
-    return 0
-def comparelikes(like1, like2):
-    if (like1['likes'] > like2['likes']):
-        return 1
-    elif (like1['likes'] < like2['likes']):
         return -1
     return 0
 def comparedislikes( dislikes1, dislikes2):
@@ -228,8 +226,9 @@ def trending_por_categoria(catalog, category_name):
 #Requerimiento 4
 def video_tag(catalog,pais,tag,numero):
     if tag in catalog["tags"]:
-        ordenado=merge.sort(catalog["tags"][tag][pais],comparelikes)
-        return ordenado
+        if pais in catalog["tags"][tag]:
+            ordenado=merge.sort(catalog["tags"][tag][pais],comparelikes)
+            return ordenado
      #size=lt.size(catalog["video"])
      #sub_list = lt.subList(catalog['video'], 0, size)
      #sub_list = sub_list.copy()

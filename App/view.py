@@ -69,7 +69,7 @@ while True:
         print("Cargando información de los archivos ....")
         catalog = controller.initCatalog(tipo_lista)
         loadData(catalog)
-        print(catalog["tags"])
+        ###print(catalog["tags"])
     #req 1
     elif int(inputs[0]) == 2:
         #F_ordenamiento= int(input("ingrese 1 para selection, 2 para insertion, 3 shell, 4 quick, 5 merge:"))
@@ -108,7 +108,9 @@ while True:
         tag=input("Cual tag quiere buscar?:")
         numero=int(input("Cuantos videos quiere saber?:"))
         rta=controller.video_tag(catalog, pais, tag, numero)
-        print(rta)
+        iterador= it.newIterator(rta)
+        element=it.next(iterador)
+        print(element)
         #iterador= it.newIterator(rta)
         #while it.hasNext(iterador):
         #    element=it.next(iterador)
