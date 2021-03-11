@@ -102,16 +102,7 @@ def addvideo (catalogo, video1):
             catalogo["tags"][i]={}
             catalogo["tags"][i][video1["country"]] = lt.newList("ARRAY_LIST",cmpfunction=None)
             lt.addLast(catalogo["tags"][i][video1["country"]],video1)
-        
-    #for i in tags:
-    #    if i in (catalogo["tags"]):
-    #       lt.addLast(catalogo["category"][i][catalogo["country"]],video1)
-    #    else:
-    #       catalogo["category"][i][catologo["country"]] = lt.newList("ARRAY_LIST",cmpfunction=None)
-    #        lt.addLast(catalogo["category"][i][catologo["country"]],video1) 
     lt.addLast(catalogo["video"],video1)
-#def adddata (catalogo,vategory):
-    #lt.addlast(catalogo[])
 
 # Funciones para creacion de datos
 def newtitle (title):
@@ -229,22 +220,3 @@ def video_tag(catalog,pais,tag,numero):
         if pais in catalog["tags"][tag]:
             ordenado=merge.sort(catalog["tags"][tag][pais],comparelikes)
             return ordenado
-     #size=lt.size(catalog["video"])
-     #sub_list = lt.subList(catalog['video'], 0, size)
-     #sub_list = sub_list.copy()
-     #rta= sa.sort(sub_list,comparelikes)
-     #tag_video = lt.newList()
-     #iterador=it.newIterator(rta)
-     #i=1
-     #while it.hasNext(iterador) and i <= numero:
-         #element=it.next(iterador)
-         #final= str(element["tags"]).split("|")
-         #if pais == element["country"] and (tag in ):
-             #lt.addLast(tag_video,element)
-             #i+=1
-     #return tag_video
-     ###postag = lt.isPresent(rta["tags"], tag)
-     ###if postag > 0:
-     ###    videotag = lt.getElement(rta["tags"],postag)
-     ###   return videotag
-     ##return rta

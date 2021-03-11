@@ -83,7 +83,6 @@ while True:
         category=int(input("Cuál categoria quiere buscar?:"))  
         #VideosByViews = VideosByViews(video1,video2)
         rta=controller.llamar_video_mas_views(catalog,numero,country,category)
-        ###print(rta)
         iterador= it.newIterator(rta)
         while it.hasNext(iterador):
             element=it.next(iterador)
@@ -105,16 +104,14 @@ while True:
     #req 4        
     elif int(inputs[0]) == 5:
         pais=input("Cúal país quiere buscar?:")
-        tag=input("Cual tag quiere buscar?:")
+        tag=input("Cual tag quiere buscar (introdzcalo entre comillas por favor)?:")
         numero=int(input("Cuantos videos quiere saber?:"))
         rta=controller.video_tag(catalog, pais, tag, numero)
         iterador= it.newIterator(rta)
-        element=it.next(iterador)
-        print(element)
-        #iterador= it.newIterator(rta)
-        #while it.hasNext(iterador):
-        #    element=it.next(iterador)
-        #    print((" title:{}, tag:{}").format(element["title"], element["tags"]))
+        i=1
+        while it.hasNext(iterador) and i <= numero:
+            element=it.next(iterador)
+            print(("Title: {}, Channel_title: {}, publish_time: {}, views: {}, likes: {}, dislikes: {}, tags: {}").format(element['title'],element['channel_title'],element['publish_time'],element['views'], element['likes'], element['dislikes'],element['tags']))
     else:
         sys.exit(0)
 sys.exit(0)
